@@ -1,0 +1,43 @@
+#define trig 3   // output pin
+#define echo 2   //input pin
+#include <Servo.h>
+Servo servo;
+#define servoPin 7
+#defne buzzerpin 9
+
+void setup()
+{
+    pinMode(trig, OUTPUT);   
+    pinMode(echo, INPUT);
+    pinMode(servoPin, OUTPUT);
+    Serial.begin(9600);
+    delay(200);
+    servo.attach(servoPin);
+}
+void loop()
+{  
+  digitalWrite(trig, LOW);
+  delay(200);
+
+  digitalWrite(trig, HIGH);
+  delay(200);
+
+  digitalWrite(trig, LOW);
+  int duration;
+  int distance;
+
+  duration = pulseIn(echo, HIGH);
+  distance = duration * 0.0324/2;
+  Serial.println(distance);
+  delay(200);
+
+  if(distance > 5){
+    servo.write(180);
+    tone(buzzerpin, 100);
+  }
+  else{
+    servo.write(0);
+    noTone(buzzerpin);
+  }
+
+} 
